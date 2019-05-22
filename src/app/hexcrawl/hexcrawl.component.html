@@ -1,0 +1,127 @@
+<div class="container">  
+    
+
+  <div class="center-align">
+    <h1>ToA Hexcrawl Tool</h1>
+    <p>Quickly perform navigation checks for your Tomb of Annihilation Campaign!</p>
+  </div>
+  
+  
+  <form [formGroup]="crawlForm" novalidate (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col m4">
+        <mz-card>
+          <mz-card-title>Survival Skill</mz-card-title>
+          <mz-card-content>
+            <mz-input-container>
+              <label class="active" for="navSurvivalSkill">Enter a number</label>
+              <input type="number" formControlName="navSkill" id="navSurvivalSkill" placeholder="Survival Skill Mod" >
+            </mz-input-container>
+          </mz-card-content>
+        </mz-card>
+      </div>
+      <div class="col m4">
+        <mz-card>
+            <mz-card-title>Advantage</mz-card-title>
+            <mz-card-content>
+              <div *ngFor="let advType of advTypes">
+                <mz-radio-button-container>
+                  <input mz-radio-button type="radio" [id]="advType" name="adv" formControlName="adv" [label]="capitalize(advType)" [value]="advType"  />
+                </mz-radio-button-container>
+              </div>
+            </mz-card-content>
+        </mz-card>
+      </div>
+      <div class="col m4">
+        <mz-card>
+          <mz-card-title>Pace</mz-card-title>
+          <mz-card-content>
+            <div *ngFor="let paceType of paceTypes">
+              <mz-radio-button-container>
+                <input mz-radio-button type="radio" [id]="paceType" name="pace" formControlName="pace" [label]="capitalize(paceType)" [value]="paceType"  />
+              </mz-radio-button-container>
+            </div>
+          </mz-card-content>
+        </mz-card>
+      </div>      
+    <!-- </div> -->
+    <!-- <div class="row"> -->
+      <div class="col m8">
+        <mz-card>
+          <mz-card-title>Terrain</mz-card-title>
+          <mz-card-content>
+            <mz-select-container>
+              <select mz-select formControlName="terrainDC" id="terrainSelect">
+                <option id="hardTerrain" value="15">Jungle, Mountain, River, Swamp, or Wasteland (DC 15)</option>
+                <option id="easyTerrain" value="10">Coast, or Lake (DC 10)</option>
+              </select>
+            </mz-select-container>
+          </mz-card-content>
+        </mz-card>
+      </div>
+    </div>
+    <button mz-button *ngIf=crawlForm.valid type="submit" (click)="modal.openModal()">Crawl!</button>
+  </form>
+
+
+  <mz-modal #modal [options]="modalOptions">
+    <mz-modal-content>
+      <mz-spinner *ngIf="loading"></mz-spinner>
+      <div class="center-align" *ngIf="crawlPromise | async">
+        <div *ngIf="crawlResult.navCheckPass">
+          <h3>Pass!</h3>
+          <p>Your party manages to stay on track.</p>
+        </div>
+        <div *ngIf="!crawlResult.navCheckPass">
+          <h3>Fail!</h3>
+          <p>Your party is lost and heads <b>{{crawlResult.lostDirection}}</b>
+        </div>
+        <p>You rolled <b>{{crawlResult.rollPlusMod}}</b> against a DC of <b>{{crawlResult.navCheckDC}}</b></p>
+        <h5>Encounters for Today:</h5> 
+        <div class="row valign-wrapper" >
+          <div class="col m4">
+            <mz-card *ngIf="crawlResult.encounterResults.morning != -1">
+              <mz-card-content>
+                <div>Morning: <b>{{crawlResult.encounterResults.morning}}</b>
+                </div>
+              </mz-card-content>
+            </mz-card>
+          </div>
+          <div class="col m4" >
+            <mz-card *ngIf="crawlResult.encounterResults.afternoon != -1">
+              <mz-card-content>
+                <div>Afternoon: <b>{{crawlResult.encounterResults.afternoon}}</b></div>
+              </mz-card-content>
+            </mz-card>
+          </div>
+          <div class="col m4">
+            <mz-card *ngIf="crawlResult.encounterResults.night != -1">
+              <mz-card-content>
+                <div>Night: <b>{{crawlResult.encounterResults.night}}</b></div>
+              </mz-card-content>
+            </mz-card>
+          </div>
+        </div>
+      </div>
+    </mz-modal-content>
+    
+  </mz-modal>
+
+  <!-- <div class="row" *ngIf="submitted">
+    <mz-card>
+      <mz-card-title></mz-card-title>
+      <mz-card-content>
+        <mz-spinner *ngIf="loading"></mz-spinner>
+      </mz-card-content>
+    </mz-card>
+  </div> -->
+  
+
+</div>
+
+
+
+
+	
+	
+	
