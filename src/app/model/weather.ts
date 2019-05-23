@@ -1,8 +1,7 @@
 
 export class Weather {
-    constructor( 
+    constructor(
         public day: number,
-        public weather: string,
-        public done: boolean = false
+        public weather: string
     ){}
 }

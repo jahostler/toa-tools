@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Weather } from '../model/weather';
 import { DiceRoll } from '../model/dice-roll';
 import { AngularCsv } from 'angular7-csv';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-weather-table',
@@ -9,6 +11,8 @@ import { AngularCsv } from 'angular7-csv';
   styleUrls: ['./weather-table.component.css']
 })
 export class WeatherTableComponent implements OnInit {
+
+  aNumber = 1;
 
   paginationCurrentPage = 1;
   paginationItemPerPage = 10;
@@ -48,11 +52,11 @@ export class WeatherTableComponent implements OnInit {
     var x = this.getRandom(20);
     switch (true) {
       case (x == 20):
-        return "Tropical Storm";
+        return 'Tropical Storm';
       case (x >= 17):
-        return "Rain";
+        return 'Rain';
       default:
-        return "Sunny";
+        return 'Sunny';
     }
   }
 
@@ -72,18 +76,32 @@ export class WeatherTableComponent implements OnInit {
   }
 
   generateCSV() {
-    const options = {
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalseparator: '.',
-      showLabels: true,
-      showTitle: true,
-      title: 'ToA Weather',
-      useBom: true,
-      noDownload: true,
-      headers: ['Done', 'Day', 'Weather']
-    }
-    new AngularCsv(this.weatherData, 'ToA-Weather', options);
+    // const options = {
+    //   fieldSeparator: ',',
+    //   quoteStrings: '"',
+    //   decimalseparator: '.',
+    //   showLabels: true,
+    //   showTitle: true,
+    //   title: 'ToA Weather',
+    //   useBom: true,
+    //   noDownload: true,
+    //   headers: ['Done', 'Day', 'Weather']
+    // }
+    // const csvFile = new AngularCsv(this.weatherData.reduce((acc, val) => acc.concat(val)), 'ToA-Weather', options);
     // console.log(csvFile)
+
+    this.downloadFile(this.weatherData.reduce((acc, val) => acc.concat(val)));
+  }
+
+
+  downloadFile(data: any) {
+    const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+    const header = Object.keys(data[0]);
+    let csv = data.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','));
+    csv.unshift(header.join(','));
+    let csvArray = csv.join('\r\n');
+
+    var blob = new Blob([csvArray], {type: 'text/csv' })
+    saveAs(blob, "myFile.csv");
   }
 }
