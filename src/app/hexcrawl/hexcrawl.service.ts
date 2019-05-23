@@ -28,13 +28,18 @@ export class HexcrawlService {
   public performCrawl(crawlModel: Crawl):Observable<CrawlResult>{
     // console.log(crawlModel.advCheck)
 
-    var roll = this.makeRoll(crawlModel.advCheck);
+    let roll = this.makeRoll(crawlModel.advCheck);
     // console.log('rollResult: ' + roll);
     this.crawlResult.rollPlusMod = roll + crawlModel.survivalMod;
     console.log('roll with mod: ' + roll + ' + ' + crawlModel.survivalMod + ' = ' + this.crawlResult.rollPlusMod);
 
-    var paceDC = this.getPaceDC(crawlModel.pace);
+
+    //stupid implicit string conversions! *waves fist angrily*
+    //todo: fix spaghetti enums at some point
+    let paceDC: number = Number(this.getPaceDC(crawlModel.pace));
+    crawlModel.terrainDC = Number(crawlModel.terrainDC); 
     this.crawlResult.navCheckDC = crawlModel.terrainDC + paceDC;
+    // console.log(this.crawlResult.navCheckDC);
     console.log("checkDC: " + crawlModel.terrainDC + " + " + paceDC + " = " + this.crawlResult.navCheckDC);
 
 
@@ -57,19 +62,19 @@ export class HexcrawlService {
   }
 
   rollD6() {
-    var roll: number = Math.ceil(Math.random() * 6);
+    let roll: number = Math.ceil(Math.random() * 6);
     console.log("rollD6: " + roll);
     return roll;
   }
 
   rollD20() {
-    var roll:number = Math.ceil(Math.random() * 20);
+    let roll:number = Math.ceil(Math.random() * 20);
     console.log("rollD20: " + roll);
     return roll;
   }
 
   rollD100() {
-    var roll: number = Math.ceil(Math.random() * 100);
+    let roll: number = Math.ceil(Math.random() * 100);
     console.log("rollD100: " + roll);
     return roll;
   }
@@ -95,7 +100,7 @@ export class HexcrawlService {
     }
   }
 
-  getPaceDC(pace: PaceEnum){
+  getPaceDC(pace: PaceEnum): number{
     switch(pace) {
       case PaceEnum.Fast:
         return 5;
@@ -108,12 +113,12 @@ export class HexcrawlService {
 
 
   getLostDirection() {
-    var roll = this.rollD6();
+    let roll = this.rollD6();
     return directionMap[roll];
   }
 
   randomEncounterCheck() {
-    var encounterResults:EncounterResults = new EncounterResults();
+    let encounterResults:EncounterResults = new EncounterResults();
     for(const key in encounterResults) {
       if(this.rollD20() >= 16) {
         encounterResults[key] = this.rollD100();
