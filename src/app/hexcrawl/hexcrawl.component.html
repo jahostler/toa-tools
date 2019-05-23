@@ -1,12 +1,12 @@
-<div class="container">  
-    
+<div class="container">
+
 
   <div class="center-align">
     <h1>ToA Hexcrawl Tool</h1>
     <p>Quickly perform navigation checks for your Tomb of Annihilation Campaign!</p>
   </div>
-  
-  
+
+
   <form [formGroup]="crawlForm" novalidate (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="col m4">
@@ -14,8 +14,8 @@
           <mz-card-title>Survival Skill</mz-card-title>
           <mz-card-content>
             <mz-input-container>
-              <label class="active" for="navSurvivalSkill">Enter a number</label>
-              <input type="number" formControlName="navSkill" id="navSurvivalSkill" placeholder="Survival Skill Mod" >
+              <label class="active" for="navSurvivalSkill"> Wisdom (Survival) Mod</label>
+              <input type="number" formControlName="navSkill" id="navSurvivalSkill" placeholder="Enter a number" >
             </mz-input-container>
           </mz-card-content>
         </mz-card>
@@ -43,7 +43,7 @@
             </div>
           </mz-card-content>
         </mz-card>
-      </div>      
+      </div>
     <!-- </div> -->
     <!-- <div class="row"> -->
       <div class="col m8">
@@ -77,7 +77,7 @@
           <p>Your party is lost and heads <b>{{crawlResult.lostDirection}}</b>
         </div>
         <p>You rolled <b>{{crawlResult.rollPlusMod}}</b> against a DC of <b>{{crawlResult.navCheckDC}}</b></p>
-        <h5>Encounters for Today:</h5> 
+        <h5>Encounters for Today:</h5>
         <div class="row valign-wrapper" >
           <div class="col m4">
             <mz-card *ngIf="crawlResult.encounterResults.morning != -1">
@@ -104,7 +104,7 @@
         </div>
       </div>
     </mz-modal-content>
-    
+
   </mz-modal>
 
   <!-- <div class="row" *ngIf="submitted">
@@ -115,13 +115,13 @@
       </mz-card-content>
     </mz-card>
   </div> -->
-  
+
 
 </div>
 
 
 
 
-	
-	
-	
+
+
+

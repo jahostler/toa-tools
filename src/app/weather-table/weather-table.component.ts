@@ -13,22 +13,31 @@ export class WeatherTableComponent implements OnInit {
   paginationCurrentPage = 1;
   paginationItemPerPage = 10;
   numRows = 100;
-  pageIndexStart: number = 0;
+  pageIndexStart = 0;
   pageIndexEnd: number = this.paginationItemPerPage;
-  weatherData = Array<Weather>();
-  
+  // weatherData = Array<Weather>();
+  weatherData = Array<Array<Weather>>();
+
   constructor() { }
 
   ngOnInit() {
 
-    for (var i = 0; i < this.numRows; i++) {
-      var tempDay = i + 1;
-      var tempWeather = this.randomWeather();
-      this.weatherData.push(new Weather(tempDay, tempWeather));
+    const pageCount = this.numRows / this.paginationItemPerPage;
+    let dayCount = 0;
+    for (let i = 0; i < pageCount; i++) {
+      const weatherPage = new Array<Weather>();
+      for(let j = 0; j < this.paginationItemPerPage; j++) {
+        // if(dayCount >= this.numRows) {
+        //   break;
+        // }
+        const tempWeather = this.randomWeather();
+        weatherPage.push(new Weather(++dayCount, tempWeather));
+      }
+      this.weatherData.push(weatherPage);
     }
   }
 
-  //return random number from 1 to max
+  // return random number from 1 to max
   getRandom(max) {
     var x = Math.ceil(Math.random() * max);
     // console.log(x)
@@ -63,7 +72,7 @@ export class WeatherTableComponent implements OnInit {
   }
 
   generateCSV() {
-    var options = {
+    const options = {
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalseparator: '.',
@@ -72,9 +81,9 @@ export class WeatherTableComponent implements OnInit {
       title: 'ToA Weather',
       useBom: true,
       noDownload: true,
-      headers: ["Done", "Day", "Weather"]
+      headers: ['Done', 'Day', 'Weather']
     }
-    var csvFile = new AngularCsv(this.weatherData, 'ToA-Weather', options);
-    console.log(csvFile)
+    new AngularCsv(this.weatherData, 'ToA-Weather', options);
+    // console.log(csvFile)
   }
 }

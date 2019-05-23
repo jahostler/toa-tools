@@ -5,8 +5,8 @@
     <p>Quickly generate weather data for your Tomb of Annihilation Campaign!</p>
   </div>
 
-  
-  
+
+
   <div class="row">
     <div class="col m6">
       <mz-pagination (pageChange)="onPageChange($event)" [currentPage]="paginationCurrentPage"
@@ -19,8 +19,8 @@
       </button>
     </div>
   </div>
-  
-  
+
+
   <table class="responsive-table bordered striped z-depth-1">
     <thead>
       <tr>
@@ -30,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of weatherData.slice(pageIndexStart, pageIndexEnd)" [class.inactive] = "!row.done">
+      <tr *ngFor="let row of weatherData[paginationCurrentPage-1]" [class.inactive] = "!row.done">
         <td class="center-align">
           <input type="checkbox" class="filled-in" id="weatherTableCheckbox" ([ngModel])="row.done">
           <label for="weatherTableCheckbox">{{row.done}}</label>
