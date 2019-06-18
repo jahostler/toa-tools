@@ -12,7 +12,7 @@ import { MzModalCloseDirective } from 'ngx-materialize';
   styleUrls: ['./hexcrawl.component.css']
 })
 export class HexcrawlComponent implements OnInit {
-  
+
   public crawlForm: FormGroup;
   public crawlModel: Crawl;
   public submitted: boolean;
@@ -25,7 +25,7 @@ export class HexcrawlComponent implements OnInit {
 
   public modalOptions: Materialize.ModalOptions;
 
-  
+
   public advTypes: string[] = Object.keys(AdvEnum);
   // public defaultAdvType: string = "None";
   public paceTypes: string[] = Object.keys(PaceEnum);
@@ -65,21 +65,21 @@ export class HexcrawlComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("starting crawl!");
+    console.log('starting crawl!');
     this.submitted = true;
 
     this.loading = true;
 
-    console.log("navSkill: " + this.crawlForm.controls['navSkill'].value);
-    console.log("advantage: " + this.crawlForm.controls['adv'].value);
-    console.log("pace: " + this.crawlForm.controls['pace'].value);
-    console.log("terrainDC: " + this.crawlForm.controls['terrainDC'].value);
+    console.log('navSkill: ' + this.crawlForm.controls.navSkill.value);
+    console.log('advantage: ' + this.crawlForm.controls.adv.value);
+    console.log('pace: ' + this.crawlForm.controls.pace.value);
+    console.log('terrainDC: ' + this.crawlForm.controls.terrainDC.value);
 
     this.crawlModel = new Crawl(
-      this.crawlForm.controls['navSkill'].value,
-      this.crawlForm.controls['adv'].value,
-      this.crawlForm.controls['pace'].value,
-      this.crawlForm.controls['terrainDC'].value
+      this.crawlForm.controls.navSkill.value,
+      this.crawlForm.controls.adv.value,
+      this.crawlForm.controls.pace.value,
+      this.crawlForm.controls.terrainDC.value
     )
 
     this.getCrawlResult();
@@ -102,11 +102,11 @@ export class HexcrawlComponent implements OnInit {
     this.crawlService.performCrawl(this.crawlModel).subscribe(
       (result: CrawlResult) => {
         this.crawlResult = result;
-        console.log("result: " + result);
+        console.log('result: ' + result);
         this.crawlPromise = Promise.resolve(true);
       },
       error => {
-        console.error("could not retrieve results");
+        console.error('could not retrieve results');
       }
     );
   }

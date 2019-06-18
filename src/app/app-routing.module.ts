@@ -4,6 +4,7 @@ import { LandingComponent } from './landing/landing.component';
 import { DiceRollerComponent } from './dice-roller/dice-roller.component';
 import { HexcrawlComponent } from './hexcrawl/hexcrawl.component';
 import { WeatherTableComponent } from './weather-table/weather-table.component';
+import { TreasureComponent } from './treasure/treasure.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'weather',
     component: WeatherTableComponent
+  },
+  {
+    path: 'treasure',
+    component: TreasureComponent
   }
 ];
 

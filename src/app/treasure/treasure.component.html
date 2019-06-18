@@ -1,0 +1,58 @@
+<div class="container">
+
+
+  <div class="center-align">
+    <h2>Treasure Tool</h2>
+    <p>Quickly roll loot for your D&D campaign!</p>
+  </div>
+
+
+  <form [formGroup]="treasureForm" novalidate (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col m4">
+        <mz-card>
+          <mz-card-title>Challenge</mz-card-title>
+          <mz-card-content>
+            <div *ngFor="let crType of crTypes">
+              <mz-radio-button-container>
+                <input mz-radio-button type="radio" [id]="crType.value" name="cr" formControlName="cr" [label]="crType.label"
+                  [value]="crType.value" />
+              </mz-radio-button-container>
+            </div>
+          </mz-card-content>
+        </mz-card>
+      </div>
+      <div class="col m4">
+        <mz-card>
+          <mz-card-title>Treasure Type</mz-card-title>
+          <mz-card-content>
+            <div *ngFor="let treasureType of treasureTypes">
+              <mz-radio-button-container>
+                <input mz-radio-button type="radio" [id]="treasureType" name="treasure" formControlName="treasure"
+                  [label]="treasureType" [value]="treasureType" />
+              </mz-radio-button-container>
+            </div>
+          </mz-card-content>
+        </mz-card>
+      </div>
+    </div>
+    <button mz-button *ngIf=treasureForm.valid type="submit" (click)="modal.openModal()">Roll Loot!</button>
+  </form>
+
+
+  <mz-modal #modal [options]="modalOptions">
+    <mz-modal-content>
+      <div class="row">
+        <div class="col">
+          <h3>Currency: </h3>
+            <div *ngFor="let coins of coinsResult">
+              <h4>{{coins.count}} {{coins.type}}</h4>
+            </div>
+        </div>
+      </div>
+    </mz-modal-content>
+
+  </mz-modal>
+
+
+</div>

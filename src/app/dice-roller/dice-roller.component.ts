@@ -18,7 +18,7 @@ export class DiceRollerComponent implements OnInit {
 
   myForm: FormGroup;
   submitted = false;
-  
+
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -33,26 +33,35 @@ export class DiceRollerComponent implements OnInit {
 
   rollDice() {
 
-    var c = this.diceCount.value
-    var d = parseInt(this.diceType.value.substring(1))
+    // var c = this.diceCount.value
+    // var d = parseInt(this.diceType.value.substring(1))
 
-    var arr = new Array<number>();
+    // var arr = new Array<number>();
 
     // console.log("count: " + this.diceCount.value);
     // console.log("type: " + this.diceType.value);
 
-    this.result = 0;
-    for(var i = 0; i < c; i++) {
-      var roll = Math.ceil(Math.random()*d)
+    // this.result = 0;
+    // for(var i = 0; i < c; i++) {
+    //   var roll = Math.ceil(Math.random()*d)
+    //   console.log(roll);
+    //   arr.push(roll);
+    //   this.result += roll;
+    // }
+
+    // this.getDiceRoll(c,d)
+
+
+  }
+
+  public getDiceRoll(n: number,  value: number) {
+    let result = 0;
+    for(let i = 0; i < value; i++) {
+      let roll = Math.ceil(Math.random()*n)
       console.log(roll);
-      arr.push(roll);
-      this.result += roll;
+      result += roll;
     }
-
-    
-
-
-
+    return result;
   }
 
 }
