@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { Crawl, AdvEnum, PaceEnum } from '../model/crawl-form'
 import { CrawlResult, EncounterResults } from '../model/crawl-result';
 import { Observable } from 'rxjs';
-import { of } from "rxjs";
+import { of } from 'rxjs';
 
 //used to map d6 roll to a random direction for hex crawl
 const directionMap = {
-  1: "North-East",
-  2: "East",
-  3: "South-East",
-  4: "South-West",
-  5: "West",
-  6: "North-West"
+  1: 'North-East',
+  2: 'East',
+  3: 'South-East',
+  4: 'South-West',
+  5: 'West',
+  6: 'North-West'
 };
 
 @Injectable({
@@ -21,11 +21,11 @@ export class HexcrawlService {
 
   crawlResult: CrawlResult;
 
-  constructor() { 
+  constructor() {
     this.crawlResult = new CrawlResult();
   }
 
-  public performCrawl(crawlModel: Crawl):Observable<CrawlResult>{
+  public performCrawl(crawlModel: Crawl): Observable<CrawlResult> {
     // console.log(crawlModel.advCheck)
 
     let roll = this.makeRoll(crawlModel.advCheck);
@@ -34,20 +34,20 @@ export class HexcrawlService {
     console.log('roll with mod: ' + roll + ' + ' + crawlModel.survivalMod + ' = ' + this.crawlResult.rollPlusMod);
 
 
-    //stupid implicit string conversions! *waves fist angrily*
-    //todo: fix spaghetti enums at some point
+    // stupid implicit string conversions! *waves fist angrily*
+    // todo: fix spaghetti enums at some point
     let paceDC: number = Number(this.getPaceDC(crawlModel.pace));
-    crawlModel.terrainDC = Number(crawlModel.terrainDC); 
+    crawlModel.terrainDC = Number(crawlModel.terrainDC);
     this.crawlResult.navCheckDC = crawlModel.terrainDC + paceDC;
     // console.log(this.crawlResult.navCheckDC);
-    console.log("checkDC: " + crawlModel.terrainDC + " + " + paceDC + " = " + this.crawlResult.navCheckDC);
+    console.log('checkDC: ' + crawlModel.terrainDC + ' + ' + paceDC + ' = ' + this.crawlResult.navCheckDC);
 
 
     if (this.crawlResult.rollPlusMod >= this.crawlResult.navCheckDC) {
-      console.log("Success!");
+      console.log('Success!');
       this.crawlResult.navCheckPass = true;
     } else {
-      console.log("Fail!");
+      console.log('Fail!');
       this.crawlResult.navCheckPass = false;
       this.crawlResult.lostDirection = this.getLostDirection();
     }
@@ -57,45 +57,45 @@ export class HexcrawlService {
 
     // console.log(this.crawlResult)
     return of(this.crawlResult);
-    
-    
+
+
   }
 
   rollD6() {
     let roll: number = Math.ceil(Math.random() * 6);
-    console.log("rollD6: " + roll);
+    console.log('rollD6: ' + roll);
     return roll;
   }
 
   rollD20() {
     let roll:number = Math.ceil(Math.random() * 20);
-    console.log("rollD20: " + roll);
+    console.log('rollD20: ' + roll);
     return roll;
   }
 
   rollD100() {
     let roll: number = Math.ceil(Math.random() * 100);
-    console.log("rollD100: " + roll);
+    console.log('rollD100: ' + roll);
     return roll;
   }
 
   makeRoll(adv:AdvEnum){
     if(adv === AdvEnum.None) {
-      console.log("rolling normally")
+      console.log('rolling normally')
       return this.rollD20();
     } else {
       var roll1 = this.rollD20();
       var roll2 = this.rollD20();
       if(adv === AdvEnum.Advantage) {
-        console.log("rolling with advantage")
+        console.log('rolling with advantage')
         var highRoll = (roll1 > roll2) ? roll1 : roll2;
         return highRoll;
       } else if (adv === AdvEnum.Disadvantage) {
-        console.log("rolling with disadvantage")
+        console.log('rolling with disadvantage')
         var lowRoll = (roll1 < roll2) ? roll1 : roll2;
         return lowRoll;
       } else{
-        console.error("ENUM TYPES NOT EQUAL");
+        console.error('ENUM TYPES NOT EQUAL');
       }
     }
   }
@@ -123,7 +123,7 @@ export class HexcrawlService {
       if(this.rollD20() >= 16) {
         encounterResults[key] = this.rollD100();
       }
-      console.log(key + " encounter: " + encounterResults[key]);
+      console.log(key + ' encounter: ' + encounterResults[key]);
     }
     return encounterResults;
   }

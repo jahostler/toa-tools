@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MzRadioButtonModule, MzButtonModule, MzInputModule,
          MzCardModule, MzNavbarModule, MzSelectModule, MzSpinnerModule,
          MzModalModule, MzPaginationModule} from 'ngx-materialize';
+import { TreasureService } from './treasure/treasure.service';
 
 
 
@@ -42,7 +43,9 @@ import { MzRadioButtonModule, MzButtonModule, MzInputModule,
     MzModalModule,
     MzPaginationModule
   ],
-  providers: [],
+  providers: [
+    TreasureService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

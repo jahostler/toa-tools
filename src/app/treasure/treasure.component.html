@@ -42,12 +42,42 @@
 
   <mz-modal #modal [options]="modalOptions">
     <mz-modal-content>
-      <div class="row">
-        <div class="col">
-          <h3>Currency: </h3>
-          <div *ngFor="let coins of coinsResult">
-            <h4>{{coins.count}} {{coins.type}}</h4>
+      <div *ngIf="lootPromise | async">
+        <div class="row">
+          <div *ngIf="lootResult">
+            <h3>Currency: </h3>
+            <div *ngFor="let coins of lootResult.coins">
+              <h4>{{coins.count}} {{coins.type}}</h4>
+            </div>
           </div>
+          <div>
+            <h3>Treasure: </h3>
+            <div *ngIf="lootResult.treasure != undefined; else treasureElseBlock">
+              <div [ngSwitch]="lootResult.treasure.type">
+                <div *ngSwitchCase="0">
+                  <h4>{{lootResult.treasure.count}} {{lootResult.treasure.value}} gp gems</h4>
+                </div>
+                <div *ngSwitchCase="1">
+                  <h4>{{lootResult.treasure.count}} {{lootResult.treasure.value}} gp art objects</h4>
+                </div>
+              </div>
+            </div>
+            <ng-template #treasureElseBlock>
+              <h4>None</h4>
+            </ng-template>
+          </div>
+          <div>
+            <h3>Magic Items: </h3>
+            <div *ngIf="lootResult.magicItems != undefined; else elseBlock">
+              <div *ngFor="let magicItem of lootResult.magicItems">
+                <h4>{{magicItem.name}}, pg. {{magicItem.page}}</h4>
+              </div>
+            </div>
+              <ng-template #elseBlock>
+                <h4>No Magic Items</h4>
+              </ng-template>
+          </div>
+
         </div>
       </div>
     </mz-modal-content>
