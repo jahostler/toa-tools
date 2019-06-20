@@ -91,11 +91,6 @@ export class TreasureComponent implements OnInit {
       }
     );
 
-    // let foo = this.treasureService.rollLoot(this.treasureModel);
-    // console.log(foo)
-    // let bar;
-    // foo.subscribe(result => bar = result);
-    // console.log(bar)
-    console.log(this.lootResult)
+    console.log(this.lootResult);
   }
 }
